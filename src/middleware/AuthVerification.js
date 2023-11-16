@@ -8,7 +8,7 @@ module.exports = (req, res, next) => {
   console.log(decoded);
   if (decoded === null) {
     return res.status(401).json({
-      success: "False",
+      success: false,
       message: "Unauthorized",
     });
   } else {

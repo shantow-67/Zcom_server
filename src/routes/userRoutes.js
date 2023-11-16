@@ -1,19 +1,16 @@
 const express = require("express");
 const {
-  Registration,
   Login,
-  verifyEmail,
   verifyOTP,
+  LogOut,
 } = require("../controller/userController");
 const AuthVerification = require("../middleware/AuthVerification");
 const router = express.Router();
 
-router.post("/registration", Registration);
-
-router.post("/login", Login);
-
-router.get("/verifyEmail/:email", verifyEmail);
+router.get("/login/:email", Login);
 
 router.get("/verifyOTP/:email/:otp", verifyOTP);
+
+router.get("/logout", LogOut);
 
 module.exports = router;
