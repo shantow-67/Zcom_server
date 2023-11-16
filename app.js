@@ -1,5 +1,5 @@
 const express = require("express");
-const bodyParser = require('body-parser');
+const bodyParser = require("body-parser");
 const rateLimit = require("express-rate-limit");
 const helmet = require("helmet");
 const mongoSanitize = require("express-mongo-sanitize");
@@ -13,6 +13,9 @@ const mongoose = require("mongoose");
 // routes import
 
 const userRoutes = require("./src/routes/userRoutes");
+const brandRoutes = require("./src/routes/brandRoutes");
+const categoryRoutes = require("./src/routes/categoryRoutes");
+const productRoutes = require("./src/routes/productRoutes");
 
 // Security middleware implement
 
@@ -49,6 +52,11 @@ mongoose
 
 // Routing implement
 app.use("/api/auth", userRoutes);
+app.use("/api/brands", brandRoutes);
+app.use("/api/category", categoryRoutes);
+app.use("/api/products", productRoutes);
+app.use("/api/categoryList", categoryRoutes);
+app.use("/api/brandList", brandRoutes);
 
 // Undefined route implement
 app.use("*", (req, res) => {
