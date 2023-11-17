@@ -1,0 +1,1 @@
+const mac = "pera"
