@@ -54,3 +54,35 @@ exports.userVerify = async (req, res) => {
     return { error: "Internal Server Error" };
   }
 };
+
+// User Profile (Create,Read,Update)
+
+// Profile Create & Update 
+
+const UserProfileSave = async (req) => {
+  try {
+      let user_id = req.headers.id;
+      let reqBody = req.body;
+      reqBody.userID = user_id;
+      await ProfileModel.updateOne({ userID: user_id }, { $set: reqBody }, { upsert: true });
+      return { status: "success", message: "Profile Save Changed" };
+  } catch (e) {
+      console.error("Error in updating profile:", e); // Log the error for debugging
+      return { status: "fail", message: "Something Went Wrong" };
+  }
+};
+
+// User Profile Read
+
+const UserProfileDetails = async (req)=>{
+  try{
+      let user_id=req.headers.id;
+      let data=await ProfileModel.find({userID: user_id})
+      return {status:"success", data:data}
+  }
+  catch (e) {
+      return {status:"fail", data:"Something Went Wrong"}
+  }
+}
+
+module.exports = {UserProfileSave, UserProfileDetails }
