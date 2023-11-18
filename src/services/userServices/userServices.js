@@ -2,6 +2,8 @@ const userOTPServices = require("./otpSendServices");
 const userVerifyService = require("./otpVerifyServices");
 const sendEmailUtility = require("../../util/sendEmailUtility");
 const UserModel = require("../../models/UsersModel");
+const ProfileModel = require("../../models/UserProfileModel");
+
 const { EncodeToken } = require("../../util/TokenHelper");
 
 exports.userLogin = async (req) => {
