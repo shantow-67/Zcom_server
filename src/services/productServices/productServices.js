@@ -2,7 +2,7 @@ const CategoryModel = require("../../models/CategoryModel");
 const BrandModel = require("../../models/BrandModel");
 const Product = require("../../models/ProductModel");
 const FlashSale = require("../../models/FlashSaleModel");
-const ProductSliderModel = require("../../models/ProductSliderModel");
+const ProductSliderModel = require("../../models/");
 const mongoose = require("mongoose");
 
 const AllProduct = async () => {
