@@ -1,48 +1,26 @@
 const mongoose = require("mongoose");
 
-const productSchema = new mongoose.Schema({
-  name: {
-    type: String,
-    required: true,
+const DataSchema = mongoose.Schema(
+  {
+    title: { type: String, trim: true, required: true },
+    shortDes: { type: String, trim: true, required: true },
+    price: { type: String, trim: true, required: true },
+    discount: { type: Boolean, trim: true, default: false },
+    discountPrice: { type: String, trim: true },
+    image: { type: String, trim: true, required: true },
+    star: { type: String, trim: true, required: true },
+    stock: { type: Boolean, trim: true, required: true, default: true },
+    remark: {
+      type: String,
+      trim: true,
+      required: true,
+      enum: ["new", "trending", "popular", "top", "special", "regular"],
+    },
+    categoryID: { type: mongoose.Schema.Types.ObjectId, required: true },
+    brandID: { type: mongoose.Schema.Types.ObjectId, required: true },
   },
-  description: {
-    type: String,
-    required: true,
-  },
-  price: {
-    type: Number,
-    required: true,
-  },
-  category: {
-    type: mongoose.Schema.Types.ObjectId,
-    ref: "Category", // Reference to the Category model
-    required: true,
-  },
-  brand: {
-    type: mongoose.Schema.Types.ObjectId,
-    ref: "Brand", // Reference to the Brand model
-    required: true,
-  },
-  stock: {
-    type: Number,
-    required: true,
-  },
-  image: {
-    type: String, // Assuming you store the image URL
-    required: true,
-  },
-  discount: {
-    type: Boolean,
-    default: false,
-  },
-  discountPrice: {
-    type: String,
-  },
-  remark: {
-    type: String,
-  },
-});
+  { timestamps: true, versionKey: false }
+);
 
-const Product = mongoose.model("Product", productSchema);
-
-module.exports = Product;
+const ProductModel = mongoose.model("products", DataSchema);
+module.exports = ProductModel;

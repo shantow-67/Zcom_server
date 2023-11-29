@@ -3,6 +3,7 @@ const express = require("express");
 const { BrandList } = require("../controller/brandController");
 const router = express.Router();
 
-router.get("/", BrandList);
+// Brand Category
+router.get("/BrandList", BrandList);
 
 module.exports = router;

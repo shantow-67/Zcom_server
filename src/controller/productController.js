@@ -1,127 +1,102 @@
-exports.SlideList = async (req, res) => {
-  try {
-    return res.status(200).json({ status: "success", message: "Slider List" });
-  } catch (error) {
-    res.status(500).json({ status: "fail", data: error });
-  }
-};
+const {
+  ProductBYRemark,
+  ProductBYCategory,
+  DetailsBYID,
+  ProductBYBrand,
+  ProductBYCategoryLimit10,
+  ProductBYSlider,
+  ProductBYKeyword,
+  AllProducts,
+  ProductDetails,
+  AllCategories,
+  AllBrands,
+} = require("../services/ProductServices");
+const { CreateWish, RemoveWish, Wish } = require("../services/WishService");
+const { CreateCart, Cart, RemoveCart } = require("../services/CartServices");
 
-exports.ProductDetails = async (req, res) => {
-  try {
-    return res
-      .status(200)
-      .json({ status: "success", message: "ProductDetails" });
-  } catch (error) {
-    res.status(500).json({ status: "fail", data: error });
-  }
+exports.ProductList = async (req, res) => {
+  let result = await AllProducts(req);
+  return res.status(200).json(result);
+};
+// exports.ProductDetail = async (req, res) => {
+//   let result = await ProductDetails(req);
+//   return res.status(200).json(result);
+// };
+exports.Category = async (req, res) => {
+  let result = await AllCategories(req);
+  return res.status(200).json(result);
+};
+exports.Brands = async (req, res) => {
+  let result = await AllBrands(req);
+  return res.status(200).json(result);
+};
+exports.SliderList = async (req, res) => {
+  let result = await ProductBYSlider(req);
+  return res.status(200).json(result);
 };
 
 exports.ListByCategory = async (req, res) => {
-  try {
-    return res
-      .status(200)
-      .json({ status: "success", message: "ListByCategory" });
-  } catch (error) {
-    res.status(500).json({ status: "fail", data: error });
-  }
+  let result = await ProductBYCategory(req);
+  return res.status(200).json(result);
+};
+
+exports.ListBySmilier = async (req, res) => {
+  let result = await ProductBYCategoryLimit10(req);
+  return res.status(200).json(result);
 };
 
 exports.ListByBrand = async (req, res) => {
-  try {
-    return res.status(200).json({ status: "success", message: "ListByBrand" });
-  } catch (error) {
-    res.status(500).json({ status: "fail", data: error });
-  }
-};
-
-exports.ListBySimiler = async (req, res) => {
-  try {
-    return res
-      .status(200)
-      .json({ status: "success", message: "ListBySimiler" });
-  } catch (error) {
-    res.status(500).json({ status: "fail", data: error });
-  }
+  let result = await ProductBYBrand(req);
+  return res.status(200).json(result);
 };
 
 exports.ListByKeyword = async (req, res) => {
-  try {
-    return res
-      .status(200)
-      .json({ status: "success", message: "ListByKeyword" });
-  } catch (error) {
-    res.status(500).json({ status: "fail", data: error });
-  }
+  let result = await ProductBYKeyword(req);
+  return res.status(200).json(result);
 };
 
-exports.ListReview = async (req, res) => {
-  try {
-    return res.status(200).json({ status: "success", message: "ListReview" });
-  } catch (error) {
-    res.status(500).json({ status: "fail", data: error });
-  }
+exports.ListReview = async (req, res) => {};
+
+exports.ProductDetails = async (req, res) => {
+  let result = await DetailsBYID(req);
+  return res.status(200).json(result);
 };
 
 exports.ListByRemark = async (req, res) => {
-  try {
-    return res.status(200).json({ status: "success", message: "ListByRemark" });
-  } catch (error) {
-    res.status(500).json({ status: "fail", data: error });
-  }
+  let result = await ProductBYRemark(req);
+  return res.status(200).json(result);
 };
 
 exports.WishList = async (req, res) => {
-  try {
-    return res.status(200).json({ status: "success", message: "WishList" });
-  } catch (error) {
-    res.status(500).json({ status: "fail", data: error });
-  }
+  let result = await Wish(req);
+  return res.status(200).json(result);
 };
 
 exports.CreateWishList = async (req, res) => {
-  try {
-    return res
-      .status(200)
-      .json({ status: "success", message: "CreateWishList" });
-  } catch (error) {
-    res.status(500).json({ status: "fail", data: error });
-  }
+  let result = await CreateWish(req);
+  return res.status(200).json(result);
 };
 
 exports.RemoveWishList = async (req, res) => {
-  try {
-    return res
-      .status(200)
-      .json({ status: "success", message: "RemoveWishList" });
-  } catch (error) {
-    res.status(500).json({ status: "fail", data: error });
-  }
+  let result = await RemoveWish(req);
+  return res.status(200).json(result);
 };
 
 exports.CartList = async (req, res) => {
-  try {
-    return res.status(200).json({ status: "success", message: "CartList" });
-  } catch (error) {
-    res.status(500).json({ status: "fail", data: error });
-  }
+  let result = await Cart(req);
+  return res.status(200).json(result);
 };
 
 exports.CreateCartList = async (req, res) => {
-  try {
-    return res
-      .status(200)
-      .json({ status: "success", message: "CreateCartList" });
-  } catch (error) {
-    res.status(500).json({ status: "fail", data: error });
-  }
+  let result = await CreateCart(req);
+  return res.status(200).json(result);
 };
 
 exports.RemoveCartList = async (req, res) => {
-  try {
-    return res
-      .status(200)
-      .json({ status: "success", message: "RemoveCartList" });
-  } catch (error) {
-    res.status(500).json({ status: "fail", data: error });
-  }
+  let result = await RemoveCart(req);
+  return res.status(200).json(result);
+};
+exports.CreateFlash = async (req, res) => {
+  let result = await RemoveCart(req);
+  return res.status(200).json(result);
 };

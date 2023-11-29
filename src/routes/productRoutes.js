@@ -2,37 +2,46 @@ const express = require("express");
 
 const AuthVerification = require("../middleware/AuthVerification");
 const {
-  ProductDetails,
-  SlideList,
   ListByCategory,
+  ListBySmilier,
   ListByBrand,
-  ListBySimiler,
-  ListByKeyword,
-  ListReview,
   ListByRemark,
+  SliderList,
+  ListByKeyword,
+  ProductDetails,
   WishList,
   CreateWishList,
   RemoveWishList,
   CartList,
   CreateCartList,
   RemoveCartList,
+  ProductList,
+  Category,
+  Brands,
+  CreateFlash,
 } = require("../controller/productController");
 
 const router = express.Router();
 
-router.get("/SlideList", SlideList);
-router.get("/ProductDetails", ProductDetails);
-router.get("/ListByCategory", ListByCategory);
-router.get("/ListByBrand", ListByBrand);
-router.get("/ListBySimiler", ListBySimiler);
-router.get("/ListByKeyword", ListByKeyword);
-router.get("/ListReview", ListReview);
-router.get("/ListByRemark", ListByRemark);
-router.get("/WishList", WishList);
-router.get("/CreateWishList", CreateWishList);
-router.get("/RemoveWishList", RemoveWishList);
-router.get("/CartList", CartList);
-router.get("/CreateCartList", CreateCartList);
-router.get("/RemoveCartList", RemoveCartList);
+router.get("/Product", ProductList);
+router.get("/Product/:id", ProductDetails);
+router.get("/Categories", Category);
+router.get("/Brands", Brands);
+router.get("/ListByCategory/:categoryID", ListByCategory);
+router.get("/ListBySmilier/:categoryID", ListBySmilier);
+router.get("/ListByBrand/:brandID", ListByBrand);
+router.get("/ListByRemark/:remark", ListByRemark);
+router.get("/SliderList", SliderList);
+router.get("/ListByKeyword/:keyword", ListByKeyword);
+router.get("/ListDetails/:id", ProductDetails);
+router.get("/FlashSale", CreateFlash);
+
+router.get("/WishList", AuthVerification, WishList);
+router.post("/CreateWishList", AuthVerification, CreateWishList);
+router.post("/RemoveWishList", AuthVerification, RemoveWishList);
+
+router.get("/CartList", AuthVerification, CartList);
+router.post("/CreateCartList", AuthVerification, CreateCartList);
+router.post("/RemoveCartList", AuthVerification, RemoveCartList);
 
 module.exports = router;

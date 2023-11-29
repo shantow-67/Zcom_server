@@ -1,4 +1,4 @@
-const { allBrands } = require("../services/productServices/productServices");
+const { allBrands } = require("../services/ProductServices");
 
 exports.BrandList = async (req, res) => {
   const result = await allBrands();

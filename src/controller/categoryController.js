@@ -1,6 +1,6 @@
 const {
   allCategories,
-} = require("../services/productServices/productServices");
+} = require("../services/ProductServices");
 
 exports.CategoryList = async (req, res) => {
   const result = await allCategories();

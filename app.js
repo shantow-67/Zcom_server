@@ -52,11 +52,9 @@ mongoose
 
 // Routing implement
 app.use("/api/auth", userRoutes);
-app.use("/api/brands", brandRoutes);
-app.use("/api/category", categoryRoutes);
-app.use("/api/products", productRoutes);
-app.use("/api/categoryList", categoryRoutes);
-app.use("/api/brandList", brandRoutes);
+app.use("/api", productRoutes);
+app.use("/api", categoryRoutes);
+app.use("/api", brandRoutes);
 
 // Undefined route implement
 app.use("*", (req, res) => {
