@@ -19,6 +19,8 @@ const {
   Category,
   Brands,
   CreateFlash,
+  AllFlashProduct,
+  FlashProductById,
 } = require("../controller/productController");
 
 const router = express.Router();
@@ -34,7 +36,9 @@ router.get("/ListByRemark/:remark", ListByRemark);
 router.get("/SliderList", SliderList);
 router.get("/ListByKeyword/:keyword", ListByKeyword);
 router.get("/ListDetails/:id", ProductDetails);
-router.get("/FlashSale", CreateFlash);
+router.post("/FlashSale/:id", CreateFlash);
+router.get("/FlashSale", AllFlashProduct);
+router.get("/FlashSale/:id", FlashProductById);
 
 router.get("/WishList", AuthVerification, WishList);
 router.post("/CreateWishList", AuthVerification, CreateWishList);

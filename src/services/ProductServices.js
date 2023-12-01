@@ -2,6 +2,7 @@ const CategoryModel = require("../models/CategoryModel");
 const BrandModel = require("../models/BrandModel");
 const ProductModel = require("../models/ProductModel");
 const ProductDetailModel = require("../models/ProductDetailModel");
+const FlashModel = require("../models/FlashSaleModel");
 const mongoose = require("mongoose");
 const ProductSliderModel = require("../models/ProductSliderModel");
 
@@ -9,7 +10,7 @@ const ObjectId = mongoose.Types.ObjectId;
 
 const AllProducts = async () => {
   try {
-    let data = await ProductModel.find();
+    let data = await ProductModel.find({});
     return { status: "success", data: data };
   } catch (e) {
     return { status: "fail", data: "Something Went Wrong" };
@@ -358,6 +359,110 @@ const DetailsBYID = async (req) => {
   }
 };
 
+const FlashSale = async (req) => {
+  try {
+    let ID = req.params.id;
+
+    let { startTime, endTime } = req.body;
+
+    let productData = await ProductModel.findById(ID);
+    let exixtFlash = await FlashModel.find({ productID: productData._id });
+
+    if (exixtFlash.length > 0) {
+      return { status: "fail", data: "This product already in flash sale" };
+    }
+    const data = new FlashModel({
+      productID: productData._id,
+      startTime,
+      endTime,
+    });
+    await data.save();
+    return { status: "success", data: data };
+  } catch (e) {
+    return { status: "fail", data: e.toString() };
+  }
+};
+
+const AllFlashSale = async () => {
+  try {
+    const flashProduct = await FlashModel.find({});
+    return { status: "success", data: flashProduct };
+  } catch (e) {
+    return { status: "fail", data: e.toString() };
+  }
+};
+
+const FlashBYID = async (req) => {
+  try {
+    let ProductID = new ObjectId(req.params.id);
+
+    const expiredFlashSales = await FlashModel.find({
+      endTime: { $lte: new Date() },
+    });
+    if (expiredFlashSales.length > 0) {
+      for (const flashSale of expiredFlashSales) {
+        await FlashModel.deleteOne(flashSale);
+      }
+      return { status: "success", data: "This flash sale is timeout" };
+    }
+    console.log(expiredFlashSales);
+    let JoinStage1 = {
+      $lookup: {
+        from: "categories",
+        localField: "categoryID",
+        foreignField: "_id",
+        as: "category",
+      },
+    };
+    let JoinStage2 = {
+      $lookup: {
+        from: "brands",
+        localField: "brandID",
+        foreignField: "_id",
+        as: "brand",
+      },
+    };
+    let JoinStage3 = {
+      $lookup: {
+        from: "flashsales",
+        localField: "_id",
+        foreignField: "productID",
+        as: "details",
+      },
+    };
+
+    let projectionStage = {
+      $project: {
+        "category._id": 0,
+        "brand._id": 0,
+        "details._id": 0,
+        "details.productID": 0,
+        "details.createdAt": 0,
+        "details.updatedAt": 0,
+      },
+    };
+    let unwindCategoryStage = { $unwind: "$category" };
+    let unwindBrandStage = { $unwind: "$brand" };
+    let unwindDetailsStage = { $unwind: "$details" };
+
+    let matchStage = { $match: { _id: ProductID } };
+
+    let data = await ProductModel.aggregate([
+      matchStage,
+      JoinStage1,
+      JoinStage2,
+      JoinStage3,
+      unwindCategoryStage,
+      unwindBrandStage,
+      unwindDetailsStage,
+      projectionStage,
+    ]);
+    return { status: "success", data: data };
+  } catch (e) {
+    return { status: "fail", data: e.toString() };
+  }
+};
+
 module.exports = {
   AllProducts,
   ProductDetails,
@@ -370,4 +475,7 @@ module.exports = {
   ProductBYCategoryLimit10,
   ProductBYSlider,
   ProductBYKeyword,
+  FlashSale,
+  AllFlashSale,
+  FlashBYID,
 };

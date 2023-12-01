@@ -10,6 +10,9 @@ const {
   ProductDetails,
   AllCategories,
   AllBrands,
+  FlashSale,
+  AllFlashSale,
+  FlashBYID,
 } = require("../services/ProductServices");
 const { CreateWish, RemoveWish, Wish } = require("../services/WishService");
 const { CreateCart, Cart, RemoveCart } = require("../services/CartServices");
@@ -97,6 +100,14 @@ exports.RemoveCartList = async (req, res) => {
   return res.status(200).json(result);
 };
 exports.CreateFlash = async (req, res) => {
-  let result = await RemoveCart(req);
+  let result = await FlashSale(req);
+  return res.status(200).json(result);
+};
+exports.AllFlashProduct = async (req, res) => {
+  let result = await AllFlashSale(req);
+  return res.status(200).json(result);
+};
+exports.FlashProductById = async (req, res) => {
+  let result = await FlashBYID(req);
   return res.status(200).json(result);
 };
