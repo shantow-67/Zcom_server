@@ -6,7 +6,7 @@ const ProfileModel = require("../../models/UserProfileModel");
 
 const { EncodeToken } = require("../../util/TokenHelper");
 
-exports.userLogin = async (req) => {
+const userLogin = async (req) => {
   try {
     const email = req.params.email;
 
@@ -26,7 +26,7 @@ exports.userLogin = async (req) => {
   }
 };
 
-exports.userVerify = async (req, res) => {
+const userVerify = async (req, res) => {
   try {
     const email = req.params.email;
     const OTPCode = req.params.otp;
@@ -59,32 +59,35 @@ exports.userVerify = async (req, res) => {
 
 // User Profile (Create,Read,Update)
 
-// Profile Create & Update 
+// Profile Create & Update
 
 const UserProfileSave = async (req) => {
   try {
-      let user_id = req.headers.id;
-      let reqBody = req.body;
-      reqBody.userID = user_id;
-      await ProfileModel.updateOne({ userID: user_id }, { $set: reqBody }, { upsert: true });
-      return { status: "success", message: "Profile Save Changed" };
+    let user_id = req.headers.id;
+    let reqBody = req.body;
+    reqBody.userID = user_id;
+    await ProfileModel.updateOne(
+      { userID: user_id },
+      { $set: reqBody },
+      { upsert: true }
+    );
+    return { status: "success", message: "Profile Save Changed" };
   } catch (e) {
-      console.error("Error in updating profile:", e); // Log the error for debugging
-      return { status: "fail", message: "Something Went Wrong" };
+    console.error("Error in updating profile:", e); // Log the error for debugging
+    return { status: "fail", message: "Something Went Wrong" };
   }
 };
 
 // User Profile Read
 
-const UserProfileDetails = async (req)=>{
-  try{
-      let user_id=req.headers.id;
-      let data=await ProfileModel.find({userID: user_id})
-      return {status:"success", data:data}
+const UserProfileDetails = async (req) => {
+  try {
+    let user_id = req.headers.id;
+    let data = await ProfileModel.find({ userID: user_id });
+    return { status: "success", data: data };
+  } catch (e) {
+    return { status: "fail", data: "Something Went Wrong" };
   }
-  catch (e) {
-      return {status:"fail", data:"Something Went Wrong"}
-  }
-}
+};
 
-module.exports = {UserProfileSave, UserProfileDetails }
+module.exports = { userLogin, userVerify, UserProfileSave, UserProfileDetails };

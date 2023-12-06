@@ -36,7 +36,7 @@ const RemoveWish = async (req) => {
 const Wish = async (req) => {
   try {
     let user_id = new ObjectId(req.headers.id);
-
+    console.log(user_id);
     let matchStage = { $match: { userID: user_id } };
     let JoinStageProduct = {
       $lookup: {

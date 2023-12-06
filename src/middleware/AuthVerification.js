@@ -5,7 +5,7 @@ module.exports = (req, res, next) => {
 
   //verify the token
   const decoded = DecodeToken(token);
-  console.log(decoded);
+  
   if (decoded === null) {
     return res.status(401).json({
       success: false,
